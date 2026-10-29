@@ -35,6 +35,7 @@
             dgvResultados = new DataGridView();
             txtTotal = new TextBox();
             label1 = new Label();
+            btnGenerarPdf = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
             SuspendLayout();
             // 
@@ -86,7 +87,7 @@
             // 
             // txtTotal
             // 
-            txtTotal.Location = new Point(533, 415);
+            txtTotal.Location = new Point(468, 415);
             txtTotal.Name = "txtTotal";
             txtTotal.Size = new Size(158, 23);
             txtTotal.TabIndex = 5;
@@ -94,17 +95,28 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(359, 418);
+            label1.Location = new Point(294, 418);
             label1.Name = "label1";
             label1.Size = new Size(168, 15);
             label1.TabIndex = 6;
             label1.Text = "Total de Registros Encontrados";
+            // 
+            // btnGenerarPdf
+            // 
+            btnGenerarPdf.Location = new Point(643, 349);
+            btnGenerarPdf.Name = "btnGenerarPdf";
+            btnGenerarPdf.Size = new Size(106, 48);
+            btnGenerarPdf.TabIndex = 7;
+            btnGenerarPdf.Text = "Generar reporte PDF";
+            btnGenerarPdf.UseVisualStyleBackColor = true;
+            btnGenerarPdf.Click += btnGenerarPdf_Click;
             // 
             // FrmBuscarProductos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnGenerarPdf);
             Controls.Add(label1);
             Controls.Add(txtTotal);
             Controls.Add(dgvResultados);
@@ -129,5 +141,6 @@
         private DataGridView dgvResultados;
         private TextBox txtTotal;
         private Label label1;
+        private Button btnGenerarPdf;
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Npgsql;
+using QuestPDF.Fluent;
 using System;
 using System;
 using System.Data;
 using System.Windows.Forms;
 using WinFormsApp1;
+using WinFormsApp1.Reportes;
 
 namespace WinFormsApp1
 {
@@ -83,6 +85,67 @@ namespace WinFormsApp1
             else
             {
                 MessageBox.Show("Por favor, selecciona una fila.");
+            }
+        }
+
+        private async void btnGenerarPdf_Click(object sender, EventArgs e)
+        {
+            using var dialogo = new SaveFileDialog
+            {
+                Title = "Guardar reporte de inventario",
+                Filter = "Archivo PDF (*.pdf)|*.pdf",
+                DefaultExt = "pdf",
+                AddExtension = true,
+                FileName = $"Inventario_{DateTime.Now:yyyyMMdd_HHmm}.pdf"
+            };
+
+            if (dialogo.ShowDialog() != DialogResult.OK)
+                return;
+
+            btnGenerarPdf.Enabled = false;
+
+            try
+            {
+                // Reemplaza esta expresión por la cadena
+                // que ya utiliza tu aplicación.
+                string connectionString = conexionString;
+
+                var repositorio = new InventarioRepository(connectionString);
+
+                var productos = await repositorio.ObtenerProductosAsync();
+
+                if (productos.Count == 0)
+                {
+                    MessageBox.Show(
+                        "No hay productos para incluir en el reporte.",
+                        "Inventario vacío",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    return;
+                }
+
+                var documento = new InventarioPdf(productos);
+
+                documento.GeneratePdf(dialogo.FileName);
+
+                MessageBox.Show(
+                    "El reporte se generó correctamente.",
+                    "Reporte PDF",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"No se pudo generar el reporte:\n{ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnGenerarPdf.Enabled = true;
             }
         }
     }
